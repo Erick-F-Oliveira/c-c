@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Tabuleiro Teste</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+    }
+
+    #board {
+      display: grid;
+      grid-template-columns: repeat(10, 50px);
+      grid-template-rows: repeat(10, 50px);
+      gap: 2px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .cell {
+      width: 50px;
+      height: 50px;
+      background: #ddd;
+    }
+
+    .player {
+      background: red;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Protótipo Tabuleiro</h1>
+<button onclick="rollDice()">Rolar D6</button>
+<p>Movimentos restantes: <span id="moves">0</span></p>
+
+<div id="board"></div>
+
+<script>
+  const size = 10;
+  const board = document.getElementById("board");
+  const movesDisplay = document.getElementById("moves");
+
+  let players = [
+    { id: 1, x: 0, y: 0, color: "red" },
+    { id: 2, x: 7, y: 0, color: "blue" },
+    { id: 3, x: 0, y: 7, color: "green" },
+    { id: 4, x: 7, y: 7, color: "purple" },
+  ];
+
+  let currentPlayerIndex = 0;
+  let movesLeft = 0;
+
+  function getCurrentPlayer() {
+    return players[currentPlayerIndex];
+  }
+
+  function createBoard() {
+    board.innerHTML = "";
+
+    for (let y = 0; y < size; y++) {
+      for (let x = 0; x < size; x++) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+
+        // desenha todos os players
+        players.forEach(p => {
+          if (p.x === x && p.y === y) {
+            cell.style.background = p.color;
+          }
+        });
+
+        board.appendChild(cell);
+      }
+    }
+  }
+
+  function rollDice() {
+    if (movesLeft > 0) return;
+
+    movesLeft = Math.floor(Math.random() * 6) + 1;
+    movesDisplay.textContent = movesLeft;
+
+    console.log(`Jogador ${getCurrentPlayer().id} rolou: ${movesLeft}`);
+  }
+
+  function nextTurn() {
+    currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+    movesLeft = 0;
+    movesDisplay.textContent = movesLeft;
+
+    console.log(`Turno do jogador ${getCurrentPlayer().id}`);
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (movesLeft <= 0) return;
+
+    let player = getCurrentPlayer();
+
+    let newX = player.x;
+    let newY = player.y;
+
+    if (e.key === "ArrowUp") newY--;
+    if (e.key === "ArrowDown") newY++;
+    if (e.key === "ArrowLeft") newX--;
+    if (e.key === "ArrowRight") newX++;
+
+    // bordas
+    if (
+      newX >= 0 &&
+      newX < size &&
+      newY >= 0 &&
+      newY < size
+    ) {
+      player.x = newX;
+      player.y = newY;
+
+      movesLeft--;
+      movesDisplay.textContent = movesLeft;
+
+      createBoard();
+
+      if (movesLeft === 0) {
+        setTimeout(nextTurn, 500);
+      }
+    }
+  });
+
+  createBoard();
+</script>
+
+</body>
+</html>
