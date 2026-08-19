@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <body>
+    <button id="ping">Ping</button>
+
+    <script src="http://localhost:8000/socket.io/socket.io.js"></script>
+
+    <script>
+      const socket = io("http://localhost:8000");
+
+      socket.on("connect", () => {
+        console.log("🟢 Conectado:", socket.id);
+      });
+
+      socket.on("pong", (message) => {
+        console.log("📨 Servidor respondeu:", message);
+      });
+
+      document.querySelector("#ping").addEventListener("click", () => {
+        socket.emit("ping");
+      });
+    </script>
+  </body>
+</html>
