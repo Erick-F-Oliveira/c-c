@@ -3,19 +3,20 @@ import { Server } from "socket.io";
 import app from "./src/app.js";
 import cors from "cors";
 
-app.use(cors({
-  origin: "*",
-  methods: ["GET", "POST"]
-}));
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST"],
+  }),
+);
 
 const httpServer = http.createServer(app);
-
 
 const io = new Server(httpServer, {
   cors: {
     origin: "*",
-    methods: ["GET", "POST"]
-  }
+    methods: ["GET", "POST"],
+  },
 });
 
 io.on("connection", (socket) => {

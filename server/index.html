@@ -1,36 +1,36 @@
 <!doctype html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Teste Socket.IO</title>
-</head>
-<body>
-<button id="ping">Ping</button>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Teste Socket.IO</title>
+  </head>
+  <body>
+    <button id="ping">Ping</button>
 
-<!-- 1. Caminho correto para a biblioteca do cliente fornecida pelo servidor -->
-<script src="http://localhost:8000/socket.io/socket.io.js"></script>
+    <!-- 1. Caminho correto para a biblioteca do cliente fornecida pelo servidor -->
+    <script src="http://localhost:8000/socket.io/socket.io.js"></script>
 
-<script>
-  // 2. Conexão com o servidor
-  const socket = io("http://localhost:8000");
+    <script>
+      // 2. Conexão com o servidor
+      const socket = io("http://localhost:8000");
 
-  socket.on("connect", () => {
-    console.log("🟢 Conectado com sucesso! ID:", socket.id);
-  });
+      socket.on("connect", () => {
+        console.log("🟢 Conectado com sucesso! ID:", socket.id);
+      });
 
-  socket.on("disconnect", () => {
-    console.log("🔴 Desconectado do servidor.");
-  });
+      socket.on("disconnect", () => {
+        console.log("🔴 Desconectado do servidor.");
+      });
 
-  socket.on("pong", (message) => {
-    console.log("📨 Servidor respondeu:", message);
-  });
+      socket.on("pong", (message) => {
+        console.log("📨 Servidor respondeu:", message);
+      });
 
-  // 3. Emitir evento ao clicar
-  document.querySelector("#ping").addEventListener("click", () => {
-    console.log("📤 Enviando ping...");
-    socket.emit("ping", "Olá do cliente!"); // Opcional: enviar dados junto
-  });
-</script>
-</body>
+      // 3. Emitir evento ao clicar
+      document.querySelector("#ping").addEventListener("click", () => {
+        console.log("📤 Enviando ping...");
+        socket.emit("ping", "Olá do cliente!"); // Opcional: enviar dados junto
+      });
+    </script>
+  </body>
 </html>

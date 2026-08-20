@@ -1,6 +1,5 @@
-
 export default {
-  testEnvironment: 'node',
+  testEnvironment: "node",
   transform: {}, // Impede o Jest de tentar usar transformadores CommonJS antigos
-  moduleFileExtensions: ['js', 'json', 'node'],
+  moduleFileExtensions: ["js", "json", "node"],
 };
