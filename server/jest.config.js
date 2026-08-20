@@ -1,4 +1,6 @@
+
 export default {
-  testEnvironment: "node",
-  verbose: true,
+  testEnvironment: 'node',
+  transform: {}, // Impede o Jest de tentar usar transformadores CommonJS antigos
+  moduleFileExtensions: ['js', 'json', 'node'],
 };
