@@ -1,0 +1,17 @@
+const CreatureClass = {
+  WARRIOR : "Guerreiro",
+  MAGE : "Mago",
+  ARCHER : "Arqueiro",
+  CLERIC : "Clérigo",
+  BARD : "Bardo",
+  ROGUE : "Ladino",
+  BARBARIAN : "Bárbaro",
+  ARTIFICER : "Artífice",
+  BEAST : "Besta",
+  DRAGON : "Dragão",
+  CONSTRUCT : "Construto",
+  PLANT : "Planta",
+  ANIMAL : "Animal",
+}
+
+export default CreatureClass

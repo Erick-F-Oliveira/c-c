@@ -1,7 +1,7 @@
-import { ElementType } from "../enums/elements";
-import { CreatureClass } from "../enums/creature-classes";
-import { CardType } from "../enums/card-types";
-import { ItemSubtype, MagicSubtype } from "../enums/card-subtypes";
+import { ElementType } from "../consts/elements.js";
+import { CreatureClass } from "../consts/creature-classes.js";
+import { CardType } from "../consts/card-types.js";
+import { ItemSubtype, MagicSubtype } from "../consts/card-subtypes.js";
 
 // ============================================
 // TIPO BASE - Comum a todas as cartas

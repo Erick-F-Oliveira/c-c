@@ -1,36 +1,47 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Teste Socket.IO</title>
-  </head>
-  <body>
-    <button id="ping">Ping</button>
+<head>
+  <meta charset="UTF-8" />
+  <title>Cartas e Cristais(Playtest)</title>
+</head>
+<body>
+<h1>Cartas e Cristais(Playtest)</h1>
+<button id="drawEnemy">Sortear Inimigo</button>
 
-    <!-- 1. Caminho correto para a biblioteca do cliente fornecida pelo servidor -->
-    <script src="http://localhost:8000/socket.io/socket.io.js"></script>
+<div id="enemyInfo" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;">
+  <p>Nenhum inimigo sorteado ainda...</p>
+</div>
 
-    <script>
-      // 2. Conexão com o servidor
-      const socket = io("http://localhost:8000");
+<script src="http://localhost:8000/socket.io/socket.io.js"></script>
+<script>
+  const socket = io("http://localhost:8000");
 
-      socket.on("connect", () => {
-        console.log("🟢 Conectado com sucesso! ID:", socket.id);
-      });
+  socket.on("connect", () => {
+    console.log("🟢 Conectado:", socket.id);
+  });
 
-      socket.on("disconnect", () => {
-        console.log("🔴 Desconectado do servidor.");
-      });
+  // Quando o botão for clicado, pede um inimigo ao servidor
+  document.querySelector("#drawEnemy").addEventListener("click", () => {
+    console.log("📤 Pedindo um inimigo ao servidor...");
+    socket.emit("request_enemy");
+  });
 
-      socket.on("pong", (message) => {
-        console.log("📨 Servidor respondeu:", message);
-      });
+  // Quando o servidor enviar o inimigo sorteado
+  socket.on("enemy_drawn", (enemy) => {
+    console.log("📨 Inimigo recebido:", enemy);
 
-      // 3. Emitir evento ao clicar
-      document.querySelector("#ping").addEventListener("click", () => {
-        console.log("📤 Enviando ping...");
-        socket.emit("ping", "Olá do cliente!"); // Opcional: enviar dados junto
-      });
-    </script>
-  </body>
+    // Atualiza a tela com as informações
+    const infoDiv = document.querySelector("#enemyInfo");
+    infoDiv.innerHTML = `
+          <h2>🐉 ${enemy.name}</h2>
+          <p><strong>Classe:</strong> ${enemy.creatureClass}</p>
+          <p><strong>Elemento:</strong> ${enemy.element}</p>
+          <p><strong>PV:</strong> ${enemy.hp}</p>
+          <p><strong>Ataque:</strong> ${enemy.attack}</p>
+          <p><strong>Defesa:</strong> ${enemy.defense}</p>
+          <p><strong>Habilidade:</strong> ${enemy.description}</p>
+        `;
+  });
+</script>
+</body>
 </html>

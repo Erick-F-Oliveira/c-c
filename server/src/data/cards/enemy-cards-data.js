@@ -1,9 +1,8 @@
-import { EnemyCardData } from "../../type/card";
-import { CardType } from "../../enums/card-types";
-import { CreatureClass } from "../../enums/creature-classes";
-import { ElementType } from "../../enums/elements";
+import CardType from "../../consts/card-types.js";
+import CreatureClass  from "../../consts/creature-classes.js";
+import ElementType from "../../consts/elements.js";
 
-export const enemyCardsData: EnemyCardData[] = [
+const enemyCardsData = [
   {
     id: 1,
     name: "Formiga gigante",
@@ -289,3 +288,5 @@ export const enemyCardsData: EnemyCardData[] = [
     abilityId: "daikeishi_passive",
   },
 ];
+
+export default enemyCardsData
