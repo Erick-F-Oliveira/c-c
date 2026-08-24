@@ -287,6 +287,19 @@ const enemyCardsData = [
       'Esta criatura recebe +5 de dano para cada criatura da classe "Dragão" em campo e na zona de descarte de inimigos. Esta criatura não sofre danos de ataques de criaturas da classe Dragão. Uma vez por rodada, enquanto esta criatura permanecer em campo, devolva aos seus respectivos baralhos todas as cartas em qualquer zona de descarte que inclua no nome: "Draco ordem real".',
     abilityId: "daikeishi_passive",
   },
+    {
+        id: 99,
+        name: "Daikeishi - O rei dos dragões",
+        type: CardType.ENEMY,
+        creatureClass: CreatureClass.DRAGON,
+        element: ElementType.NEUTRAL,
+        hp: 300,
+        attack: 50,
+        defense: 33,
+        description:
+            'Esta criatura recebe +5 de dano para cada criatura da classe "Dragão" em campo e na zona de descarte de inimigos. Esta criatura não sofre danos de ataques de criaturas da classe Dragão. Uma vez por rodada, enquanto esta criatura permanecer em campo, devolva aos seus respectivos baralhos todas as cartas em qualquer zona de descarte que inclua no nome: "Draco ordem real".',
+        abilityId: "daikeishi_passive",
+    }
 ];
 
 export default enemyCardsData

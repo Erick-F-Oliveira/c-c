@@ -1,13 +1,12 @@
 import chalk from "chalk";
 
-// Função auxiliar para pegar o horário formatado
 const getTimestamp = () => {
   const now = new Date();
   return now.toLocaleTimeString("pt-BR", { hour12: false });
 };
 
 const logger = {
-  // ...args permite passar quantos argumentos você quiser (ex: logger.info("User:", userObj))
+  // ...args permite passar quantos argumentos quiser (ex: logger.info("User:", userObj))
   info: (...args) => {
     console.log(chalk.bgBlue(`[${getTimestamp()}] [INFO]`),chalk.blue( ...args));
   },
@@ -17,12 +16,11 @@ const logger = {
   },
 
   warn: (...args) => {
-    console.warn(chalk.bgYellowBrightellow(`[${getTimestamp()}] [WARN]`), ...args);
+    console.warn(chalk.bgYellowBright(`[${getTimestamp()}] [WARN]`), ...args);
   },
-
   error: (...args) => {
-    // Usa console.error para que o sistema operacional trate como erro real
-    console.error(chalk.red(`[${getTimestamp()}] [ERROR]`), ...args);
+
+    console.error(chalk.bgRedBright(`[${getTimestamp()}] [ERROR]`),chalk.redBright( ...args));
 
     // Se o último argumento for um objeto Error, imprime o stack trace completo
     const lastArg = args[args.length - 1];
@@ -32,8 +30,6 @@ const logger = {
   },
 
 
-
-  // Corrigido para receber dados reais (arrays/objetos) e não strings
   table: (data, columns) => {
     console.log(chalk.cyan(`[${getTimestamp()}] [TABLE]`));
     console.table(data, columns);

@@ -21,7 +21,7 @@ describe("Conexão com o Banco de Dados", () => {
 
         expect(resultado).toBe(true);
         expect(mongoose.connect).toHaveBeenCalledWith(process.env.MONGODB_URI);
-        expect(loggerSuccessSpy).toHaveBeenCalledWith("🌿 Conexão com MongoDB estabelecida! ✔");
+        expect(loggerSuccessSpy).toHaveBeenCalledWith("🌿 Conexão com MongoDB estabelecida!");
 
         // Limpa os spies
         mockConnect.mockRestore();

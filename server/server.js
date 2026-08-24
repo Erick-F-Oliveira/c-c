@@ -6,6 +6,7 @@ import logger from "./src/utils/logger.js";
 import connect from "./src/config/db.js";
 import enemyCardsData from "./src/data/cards/enemy-cards-data.js";
 import random from "./src/utils/functions/randomEnemy.js";
+import CardRegistry from "./src/registry/card-registry.js";
 
 app.use(
   cors({
@@ -53,14 +54,20 @@ io.on("connection", (socket) => {
 export { httpServer, io };
 
 try {
+    await CardRegistry.initialize()
+    await connect();
+    await CardRegistry.getEnemyCard(8)
+
   httpServer.listen(process.env.PORT || 8000, () => {
     logger.success(`💻 Servidor rodando na porta ${process.env.PORT || 8000}`);
   });
-  await connect();
+
+
   logger.success("Tudo ok");
 
+
   logger.info("Sorteando um inimigo...");
-  const enemy = random(enemyCardsData)[0];
+  const enemy = random(CardRegistry.getAllEnemyCards())[0];
   logger.info(enemy.name);
 } catch (e) {
   logger.error(e);
