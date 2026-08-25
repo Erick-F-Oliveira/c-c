@@ -4,7 +4,7 @@ import app from "./src/app.js";
 import cors from "cors";
 import logger from "./src/utils/logger.js";
 import connect from "./src/config/db.js";
-import enemyCardsData from "./src/data/cards/enemy-cards-data.js";
+import creatureCardsData from "./src/data/cards/creature-cards-data.js";
 import random from "./src/utils/functions/randomEnemy.js";
 import CardRegistry from "./src/registry/card-registry.js";
 
@@ -36,7 +36,7 @@ io.on("connection", (socket) => {
     logger.info(`🎲 Sorteando inimigo para ${socket.id}...`);
 
     // Sorteia no servidor
-    const enemyFront = random(enemyCardsData)[0];
+    const enemyFront = random(creatureCardsData)[0];
 
     // Envia o resultado APENAS para esse cliente
     socket.emit("enemy_drawn", enemyFront);
@@ -54,9 +54,9 @@ io.on("connection", (socket) => {
 export { httpServer, io };
 
 try {
-    await CardRegistry.initialize()
+    CardRegistry.initialize()
     await connect();
-    await CardRegistry.getEnemyCard(8)
+    await CardRegistry.getCreatureCard(8)
 
   httpServer.listen(process.env.PORT || 8000, () => {
     logger.success(`💻 Servidor rodando na porta ${process.env.PORT || 8000}`);

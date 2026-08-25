@@ -2,11 +2,11 @@ import CardType from "../../consts/card-types.js";
 import CreatureClass  from "../../consts/creature-classes.js";
 import ElementType from "../../consts/elements.js";
 
-const enemyCardsData = [
+const creatureCardsData = [
   {
     id: 1,
     name: "Formiga gigante",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.ANIMAL,
     element: ElementType.EARTH,
     hp: 20,
@@ -17,7 +17,7 @@ const enemyCardsData = [
   {
     id: 2,
     name: "Mungo mungo",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.BEAST,
     element: ElementType.LIGHT,
     hp: 30,
@@ -30,7 +30,7 @@ const enemyCardsData = [
   {
     id: 3,
     name: "Fungo de salbidor",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.PLANT,
     element: ElementType.EARTH,
     hp: 25,
@@ -43,7 +43,7 @@ const enemyCardsData = [
   {
     id: 4,
     name: "Gramaka",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.ANIMAL,
     element: ElementType.NEUTRAL,
     hp: 30,
@@ -56,7 +56,7 @@ const enemyCardsData = [
   {
     id: 5,
     name: "Wepak",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.BEAST,
     element: ElementType.WATER,
     hp: 18,
@@ -67,7 +67,7 @@ const enemyCardsData = [
   {
     id: 6,
     name: "Fégo",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.CONSTRUCT,
     element: ElementType.FIRE,
     hp: 40,
@@ -78,7 +78,7 @@ const enemyCardsData = [
   {
     id: 7,
     name: "Guerreiro de escudo de salbidor",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.WARRIOR,
     element: ElementType.EARTH,
     hp: 30,
@@ -89,7 +89,7 @@ const enemyCardsData = [
   {
     id: 8,
     name: "Megurimo",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.ANIMAL,
     element: ElementType.FIRE,
     hp: 20,
@@ -102,7 +102,7 @@ const enemyCardsData = [
   {
     id: 9,
     name: "Agerim",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.ANIMAL,
     element: ElementType.EARTH,
     hp: 35,
@@ -115,7 +115,7 @@ const enemyCardsData = [
   {
     id: 10,
     name: "Guardião do imperador do fogo",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.WARRIOR,
     element: ElementType.FIRE,
     hp: 40,
@@ -127,7 +127,7 @@ const enemyCardsData = [
   {
     id: 11,
     name: "Melko, o sucateiro",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.WARRIOR,
     element: ElementType.EARTH,
     hp: 22,
@@ -140,7 +140,7 @@ const enemyCardsData = [
   {
     id: 12,
     name: "Serpe dimensional",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.DRAGON,
     element: ElementType.NEUTRAL,
     hp: 22,
@@ -154,7 +154,7 @@ const enemyCardsData = [
   {
     id: 13,
     name: "Dragão da poeira",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.DRAGON,
     element: ElementType.EARTH,
     hp: 120,
@@ -169,7 +169,7 @@ const enemyCardsData = [
   {
     id: 14,
     name: "Dragão de gelo",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.DRAGON,
     element: ElementType.WATER,
     hp: 130,
@@ -184,7 +184,7 @@ const enemyCardsData = [
   {
     id: 15,
     name: "Dragão de fogo",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.DRAGON,
     element: ElementType.FIRE,
     hp: 120,
@@ -199,7 +199,7 @@ const enemyCardsData = [
   {
     id: 16,
     name: "Imperador do fogo",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.WARRIOR,
     element: ElementType.FIRE,
     hp: 50,
@@ -214,7 +214,7 @@ const enemyCardsData = [
   {
     id: 17,
     name: "Guall-gar",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.BEAST,
     element: ElementType.DARKNESS,
     hp: 30,
@@ -225,7 +225,7 @@ const enemyCardsData = [
   {
     id: 18,
     name: "Guall-ghor",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.BEAST,
     element: ElementType.DARKNESS,
     hp: 60,
@@ -238,7 +238,7 @@ const enemyCardsData = [
   {
     id: 19,
     name: "Patso batso",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.BEAST,
     element: ElementType.NEUTRAL,
     hp: 23,
@@ -251,7 +251,7 @@ const enemyCardsData = [
   {
     id: 20,
     name: "Emidan",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.WARRIOR,
     element: ElementType.NEUTRAL,
     hp: 45,
@@ -264,7 +264,7 @@ const enemyCardsData = [
   {
     id: 21,
     name: "Pladéa - A primeira libélula",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.ANIMAL,
     element: ElementType.NEUTRAL,
     hp: 50,
@@ -277,7 +277,7 @@ const enemyCardsData = [
   {
     id: 22,
     name: "Daikeishi - O rei dos dragões",
-    type: CardType.ENEMY,
+    type: CardType.CREATURE,
     creatureClass: CreatureClass.DRAGON,
     element: ElementType.NEUTRAL,
     hp: 300,
@@ -288,9 +288,9 @@ const enemyCardsData = [
     abilityId: "daikeishi_passive",
   },
     {
-        id: 99,
+        id: undefined,
         name: "Daikeishi - O rei dos dragões",
-        type: CardType.ENEMY,
+        type: CardType.CREATURE,
         creatureClass: CreatureClass.DRAGON,
         element: ElementType.NEUTRAL,
         hp: 300,
@@ -302,4 +302,4 @@ const enemyCardsData = [
     }
 ];
 
-export default enemyCardsData
+export default creatureCardsData

@@ -9,4 +9,4 @@ const MagicSubtype = {
   DURABLE : "Durável",
   RESPONSE : "Resposta",
 }
-export default { ItemSubtype,MagicSubtype}
+export  { ItemSubtype,MagicSubtype}

@@ -1,5 +1,5 @@
 const CardType = {
-  ENEMY : "Inimigo",
+  CREATURE : "Criatura",
   ITEM : "Item",
   MAGIC : "Magia",
 }
