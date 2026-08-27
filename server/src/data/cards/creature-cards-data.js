@@ -288,7 +288,7 @@ const creatureCardsData = [
     abilityId: "daikeishi_passive",
   },
     {
-        id: undefined,
+        id: 999,
         name: "Daikeishi - O rei dos dragões",
         type: CardType.CREATURE,
         creatureClass: CreatureClass.DRAGON,

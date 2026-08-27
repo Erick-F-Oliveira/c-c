@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import router from "./router.js"
 import connect from "../src/config/db.js"
 
 const app = express();
@@ -10,15 +11,8 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   }),
 );
-app.get("/", (req, res) => {
-  res.json({ mensagem: "Servidor funcionando!" });
-});
+app.use("/api", router);
 
-app.get("/health", (req, res) => {
-  res.json({
-    status: "online",
-    timestamp: new Date().toISOString(),
-  });
-});
+
 
 export default app;
