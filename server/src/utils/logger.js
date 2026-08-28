@@ -6,14 +6,20 @@ const getTimestamp = () => {
 };
 
 const logger = {
-  // ...args permite passar quantos argumentos quiser (ex: logger.info("User:", userObj))
-  info: (...args) => {
-    console.log(chalk.bgBlue(`[${getTimestamp()}] [INFO]`),chalk.blue( ...args));
-  },
 
-  success: (...args) => {
-    console.log(chalk.bgGreenBright(`[${getTimestamp()}] [SUCCESS]`),chalk.greenBright( ...args,"✔"));
+  superInfo: (...args) => {
+    console.log(chalk.bgBlue(`[${getTimestamp()}] [INFO]`),chalk.bgBlue( ...args));
   },
+    info: (...args) => {
+        console.log(chalk.blue(`[${getTimestamp()}] [INFO]`),chalk.blue( ...args));
+    },
+
+  superSuccess: (...args) => {
+    console.log(chalk.bgGreenBright(`[${getTimestamp()}] [SUCCESS]`),chalk.bgGreenBright( ...args,"✔ "));
+  },
+    success: (...args) => {
+        console.log(chalk.greenBright(`[${getTimestamp()}] [SUCCESS]`),chalk.greenBright( ...args,"✔"));
+    },
 
   warn: (...args) => {
     console.warn(chalk.bgYellowBright(`[${getTimestamp()}] [WARN]`), ...args);
@@ -22,8 +28,7 @@ const logger = {
 
     console.error(chalk.bgRedBright(`[${getTimestamp()}] [ERROR]`),chalk.redBright( ...args));
 
-    // Se o último argumento for um objeto Error, imprime o stack trace completo
-    const lastArg = args[args.length - 1];
+     const lastArg = args[args.length - 1];
     if (lastArg instanceof Error) {
       console.error(chalk.red(lastArg.stack));
     }

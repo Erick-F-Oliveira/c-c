@@ -1,47 +1,61 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Cartas e Cristais(Playtest)</title>
+    <meta charset="UTF-8" />
+    <title>Teste de Salas - Cartas e Cristais</title>
 </head>
 <body>
-<h1>Cartas e Cristais(Playtest)</h1>
-<button id="drawEnemy">Sortear Inimigo</button>
+<h1>Teste de Salas (Rooms)</h1>
 
-<div id="enemyInfo" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;">
-  <p>Nenhum inimigo sorteado ainda...</p>
+<div>
+    <label>Digite o Nome da Sala:</label>
+    <input type="text" id="roomInput" value="mesa_1" />
+    <button id="btnJoin">Entrar na Sala</button>
 </div>
 
-<script src="http://localhost:8000/socket.io/socket.io.js"></script>
+<br />
+
+<button id="btnDraw" disabled>Sortear Inimigo para a Sala</button>
+
+<div id="logs" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; background: #f9f9f9;">
+    <p>Aguardando ações...</p>
+</div>
+
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
 <script>
-  const socket = io("http://localhost:8000");
+    const socket = io("http://localhost:3000");
+    let currentRoom = "";
 
-  socket.on("connect", () => {
-    console.log("🟢 Conectado:", socket.id);
-  });
+    const logs = document.querySelector("#logs");
+    const btnDraw = document.querySelector("#btnDraw");
 
-  // Quando o botão for clicado, pede um inimigo ao servidor
-  document.querySelector("#drawEnemy").addEventListener("click", () => {
-    console.log("📤 Pedindo um inimigo ao servidor...");
-    socket.emit("request_enemy");
-  });
+    // 1. Entrar na sala digitada
+    document.querySelector("#btnJoin").addEventListener("click", () => {
+        currentRoom = document.querySelector("#roomInput").value;
+        socket.emit("join_room", currentRoom);
+        logs.innerHTML += `<p>🟢 Solicitou entrada na sala: <b>${currentRoom}</b></p>`;
+        btnDraw.disabled = false;
+    });
 
-  // Quando o servidor enviar o inimigo sorteado
-  socket.on("enemy_drawn", (enemy) => {
-    console.log("📨 Inimigo recebido:", enemy);
+    // 2. Pedir inimigo para a sala atual
+    btnDraw.addEventListener("click", () => {
+        socket.emit("request_enemy_for_room", currentRoom);
+    });
 
-    // Atualiza a tela com as informações
-    const infoDiv = document.querySelector("#enemyInfo");
-    infoDiv.innerHTML = `
-          <h2>🐉 ${enemy.name}</h2>
-          <p><strong>Classe:</strong> ${enemy.creatureClass}</p>
-          <p><strong>Elemento:</strong> ${enemy.element}</p>
-          <p><strong>PV:</strong> ${enemy.hp}</p>
-          <p><strong>Ataque:</strong> ${enemy.attack}</p>
-          <p><strong>Defesa:</strong> ${enemy.defense}</p>
-          <p><strong>Habilidade:</strong> ${enemy.description}</p>
-        `;
-  });
+    // 3. Receber aviso da sala
+    socket.on("room_message", (msg) => {
+        logs.innerHTML += `<p>📢 <b>Aviso da Sala:</b> ${msg}</p>`;
+    });
+
+    // 4. Receber o inimigo sorteado da sala
+    socket.on("enemy_drawn", (data) => {
+        logs.innerHTML += `
+        <div style="border-top: 1px solid #ddd; margin-top: 5px;">
+          <p>🐉 <b>Inimigo Sorteado:</b> ${data.enemy.name}</p>
+          <small>Sorteado pelo Socket: ${data.drawnBy}</small>
+        </div>
+      `;
+    });
 </script>
 </body>
 </html>

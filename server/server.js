@@ -4,9 +4,9 @@ import app from "./src/app.js";
 import cors from "cors";
 import logger from "./src/utils/logger.js";
 import connect from "./src/config/db.js";
-import creatureCardsData from "./src/data/cards/creature-cards-data.js";
 import random from "./src/utils/functions/randomEnemy.js";
 import CardRegistry from "./src/registry/card-registry.js";
+import setupSockets from "./src/sockets/index.js";
 
 app.use(
   cors({
@@ -23,52 +23,21 @@ const io = new Server(httpServer, {
     methods: ["GET", "POST"],
   },
 });
-
-io.on("connection", (socket) => {
-  logger.info("📡 Cliente conectado:", socket.id);
-
-  socket.on("ping", () => {
-    logger.info("📩 Ping recebido de:", socket.id);
-    socket.emit("pong", "Resposta do servidor!");
-  });
-  // Quando o cliente pedir um inimigo
-  socket.on("request_enemy", () => {
-    logger.info(`🎲 Sorteando inimigo para ${socket.id}...`);
-
-    // Sorteia no servidor
-    const enemyFront = random(creatureCardsData)[0];
-
-    // Envia o resultado APENAS para esse cliente
-    socket.emit("enemy_drawn", enemyFront);
-
-    logger.info(`🐉 Inimigo sorteado: ${enemyFront.name}`);
-  });
-
-  // Boa prática: saber quando o cliente sai
-  socket.on("disconnect", () => {
-    logger.info("🔌 Cliente desconectado:", socket.id);
-  });
-});
-
-// Exportar para testes (como você já estava fazendo)
+setupSockets(io)
+logger.info(setupSockets.id)
 export { httpServer, io };
 
-try {
+
+(async () => {try {
     CardRegistry.initialize()
     await connect();
     await CardRegistry.getCreatureCard(8)
 
   httpServer.listen(process.env.PORT || 8000, () => {
-    logger.success(`💻 Servidor rodando na porta ${process.env.PORT || 8000}`);
+    logger.superSuccess(`💻 Servidor rodando na porta ${process.env.PORT || 8000}`);
   });
 
-
-  logger.success("Tudo ok");
-
-
-  logger.info("Sorteando um inimigo...");
-  const enemy = random(CardRegistry.getAllEnemyCards())[0];
-  logger.info(enemy.name);
+    logger.success("Tudo ok");
 } catch (e) {
   logger.error(e);
-}
+}})()
