@@ -6,34 +6,47 @@ const getTimestamp = () => {
 };
 
 const logger = {
+  simple: (...args) => {
+    console.log(chalk.gray(`[${getTimestamp()}]`), ...args);
+  },
 
   superInfo: (...args) => {
-    console.log(chalk.bgBlue(`[${getTimestamp()}] [INFO]`),chalk.bgBlue( ...args));
+    console.log(
+      chalk.bgBlue(`[${getTimestamp()}] [INFO]`),
+      chalk.bgBlue(...args),
+    );
   },
-    info: (...args) => {
-        console.log(chalk.blue(`[${getTimestamp()}] [INFO]`),chalk.blue( ...args));
-    },
+  info: (...args) => {
+    console.log(chalk.blue(`[${getTimestamp()}] [INFO]`), chalk.blue(...args));
+  },
 
   superSuccess: (...args) => {
-    console.log(chalk.bgGreenBright(`[${getTimestamp()}] [SUCCESS]`),chalk.bgGreenBright( ...args,"✔ "));
+    console.log(
+      chalk.bgGreenBright(`[${getTimestamp()}] [SUCCESS]`),
+      chalk.bgGreenBright(...args, "✔ "),
+    );
   },
-    success: (...args) => {
-        console.log(chalk.greenBright(`[${getTimestamp()}] [SUCCESS]`),chalk.greenBright( ...args,"✔"));
-    },
+  success: (...args) => {
+    console.log(
+      chalk.greenBright(`[${getTimestamp()}] [SUCCESS]`),
+      chalk.greenBright(...args, "✔"),
+    );
+  },
 
   warn: (...args) => {
     console.warn(chalk.bgYellowBright(`[${getTimestamp()}] [WARN]`), ...args);
   },
   error: (...args) => {
+    console.error(
+      chalk.bgRedBright(`[${getTimestamp()}] [ERROR]`),
+      chalk.redBright(...args),
+    );
 
-    console.error(chalk.bgRedBright(`[${getTimestamp()}] [ERROR]`),chalk.redBright( ...args));
-
-     const lastArg = args[args.length - 1];
+    const lastArg = args[args.length - 1];
     if (lastArg instanceof Error) {
       console.error(chalk.red(lastArg.stack));
     }
   },
-
 
   table: (data, columns) => {
     console.log(chalk.cyan(`[${getTimestamp()}] [TABLE]`));

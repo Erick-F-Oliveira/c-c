@@ -4,8 +4,10 @@ import app from "./src/app.js";
 import cors from "cors";
 import logger from "./src/utils/logger.js";
 import connect from "./src/config/db.js";
-import CardRegistry from "./src/registry/card-registry.js";
+import CreatureCardRegistry from "./src/registry/creatureCard-registry.js";
+import ItemCardRegistry from "./src/registry/itemCard-registry.js";
 import setupSockets from "./src/sockets/index.js";
+import MagicCardRegistry from "./src/registry/magicCard-registry.js";
 
 app.use(
   cors({
@@ -23,14 +25,18 @@ const io = new Server(httpServer, {
   },
 });
 setupSockets(io);
-logger.info(setupSockets.id);
 export { httpServer, io };
 
 (async () => {
   try {
-    CardRegistry.initialize();
+    //Inicializa os regisros das cartas
+    CreatureCardRegistry.initialize();
+    ItemCardRegistry.initialize();
+    MagicCardRegistry.initialize();
+    logger.info("Cartas registradas com sucesso!");
+    logger.simple("==================================");
+
     await connect();
-    await CardRegistry.getCreatureCard(8);
 
     httpServer.listen(process.env.PORT || 8000, () => {
       logger.superSuccess(
