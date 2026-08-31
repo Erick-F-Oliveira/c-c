@@ -1,6 +1,4 @@
 function Container({ children }) {
-    return <section>
-        {children}
-    </section>;
+  return <section>{children}</section>;
 }
 export default Container;
