@@ -24,7 +24,7 @@ const authStatus = async (req, res) => {
 // Rota de callback que o Discord usa para enviar a resposta
 const authRedirect = passport.authenticate("discord", {
   failureRedirect: "/logout", // Rota em caso de falha
-  successRedirect: "http://localhost:3000/api/auth/status", // Rota em caso de sucesso
+  successRedirect: "http://localhost:5173/", // Rota em caso de sucesso
 });
 
 const authLogout = async (req, res) => {
