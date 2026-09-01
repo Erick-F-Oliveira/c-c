@@ -1,15 +1,17 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import logo from "../assets/logo1.png";
 
-function Header({ user }) {
+
+//user será trazido depois pela autenticação
+const Header = ({ user }) => {
   return (
     <div className="navbar bg-base-100/50 backdrop-blur-md sticky top-0 z-50 px-4 shadow-sm">
       <div className="navbar-start">
-        <a className="btn btn-ghost text-xl font-bold gap-2">
+        <Link to="/" className="btn btn-ghost text-xl font-bold gap-2">
           <img src={logo} width={"50px"} />
-
           <span className="badge badge-accent badge-xs">v0.1</span>
-        </a>
+        </Link>
       </div>
 
       <div className="navbar-end gap-2">
@@ -39,7 +41,7 @@ function Header({ user }) {
                 {user.username}
               </li>
               <li>
-                <a>👤 Meu Perfil</a>
+                <a>👤 Perfil</a>
               </li>
               <li>
                 <a>🎴 Meu Deck</a>
@@ -56,12 +58,12 @@ function Header({ user }) {
             </ul>
           </div>
         ) : (
-          <a
-            href="http://localhost:3000/api/auth/discord/login"
+          <Link
+            to={"/login"}
             className="btn btn-primary btn-sm md:btn-md gap-2"
           >
-            <span>Login com Discord</span>
-          </a>
+            <span>Entrar</span>
+          </Link>
         )}
       </div>
     </div>

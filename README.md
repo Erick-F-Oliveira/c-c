@@ -141,16 +141,27 @@ npm install
 Use o arquivo `` .env.example`` como referência.  
 Mantenha os mesmos nomes das variáveis utilizadas no arquivo de exemplo. Caso queira alterar algum nome, lembre-se de alterar também o código que utiliza essa variável 
 
-**5 Execute o projeto.**
+**5 Execute o back-end.**
 ```bash
 #Para executar os testes:
 npm run test
 
 #Para executar o projeto em desenvolvimento, utilizando Nodemon:
 npm run dev
+```
+**6 Abra outro terminal e vá no client.**
+```bash
+cd c-c/client
+```
+**7 Instale as dependências.**
+```bash
+npm install
+```
+**8 Execute o front-end**
+```bash
 
-#Para iniciar normalmente:
-npm run start
+#Para executar em desenvolvimento
+npm run dev
 ```
 [Voltar ao sumário ⬆️](#sumário-)
 
@@ -183,6 +194,9 @@ A estrutura ainda está em desenvolvimento e provavelmente vai mudar bastante co
 - [Cors](https://github.com/expressjs/cors?tab=readme-ov-file)
 - [Chalk](https://github.com/chalk/chalk)
 - [Dotenv](https://github.com/motdotla/dotenv)
+
+**client**<br>
+Já o ``client`` é responsável pelo site do jogo e o jogo em si. As coisas com que o usuário interage
 
 [Voltar ao sumário ⬆️](#sumário-)
 
@@ -248,6 +262,8 @@ O desenvolvimento será acompanhado neste README conforme o projeto for avançan
 * [x] Estrutura inicial de testes
 
 ### Fase 2 — MVP
+* [x] Estrutura inicial do frontend
+* [ ] Sorteador de cartas
 * [ ] Criar jogadores
 * [ ] Criar partida
 * [ ] Criar tabuleiro

@@ -1,8 +1,8 @@
-import { Outlet } from "react-router";
+import { Outlet } from "react-router-dom";
 import Container from "../../components/Container.jsx";
 import Header from "../../components/Header.jsx";
 
-function Base() {
+const  Base = () =>{
   return (
     <>
       <main>

@@ -1,4 +1,4 @@
-function Container({ children }) {
+const Container = ({ children }) =>{
   return <section>{children}</section>;
 }
 export default Container;
