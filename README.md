@@ -57,7 +57,7 @@ Para evitar transformar este **README** em um livro, as regras e cartas já dese
 [Voltar ao sumário ⬆️](#sumário-)
 ___
 
-## O código 💻
+## O Código 💻
 
 Esse é,o meu projeto mais complexo. 
 
@@ -79,7 +79,7 @@ Sem mais delongas passemos paro o código.<br>
 
 Atualmente o projeto está em desenvolvimento.
 
-A estrutura inicial do backend já está sendo construída e o próximo grande objetivo é chegar a um MVP jogável.
+A estrutura inicial do backend e do frontend já estão sendo construídas e quase finalizadas, o próximo grande objetivo é chegar a um MVP jogável.
 ```
 Estrutura
    ↓
@@ -117,7 +117,7 @@ Lançamento
 * [ ] Testes automatizados
 * [ ] Primeiro playtest digital
  
-[Voltar ao sumário ⬆️](#sumário-)
+[voltar ao Sumário ⬆️](#Sumário-)
 
 ---
 ## Instalação e uso ⚙️
@@ -195,7 +195,7 @@ A estrutura ainda está em desenvolvimento e provavelmente vai mudar bastante co
 - [Chalk](https://github.com/chalk/chalk)
 - [Dotenv](https://github.com/motdotla/dotenv)
 
-**client**<br>
+**Client**<br>
 Já o ``client`` é responsável pelo site do jogo e o jogo em si. As coisas com que o usuário interage
 
 [Voltar ao sumário ⬆️](#sumário-)
@@ -299,13 +299,17 @@ Como este README também serve como um diário do desenvolvimento, novas mudanç
 
 **2026**
 
+Setembro 
+
+* Pequena implementação visual 
+
 Agosto
 
 * Estrutura inicial do backend
 * Configuração do projeto
 * Primeiros testes automatizados
 * Estrutura inicial para comunicação em tempo real
-* Início do desenvolvimento do MVP
+* Estrutura inicial do frontend 
 
 [Voltar ao sumário ⬆️](#sumário-)
 
