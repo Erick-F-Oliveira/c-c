@@ -1,10 +1,15 @@
 import logger from "../utils/logger.js";
 import User from "../models/user.model.js";
+import { randomMixedString } from "../utils/functions/randomString.js";
 
 const registerUser = async (req, res) => {
   try {
     const { username, email } = req.body;
-    await User.create({ username, email });
+    await User.create({
+      username,
+      email,
+      _id: `user_${randomMixedString(12)}`,
+    });
     res.status(200).json({
       message: "Usuário registrado com sucesso",
     });

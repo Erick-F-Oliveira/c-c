@@ -22,7 +22,11 @@ const authStatus = async (req, res) => {
 };
 
 // Rota de callback que o Discord usa para enviar a resposta
-const authRedirect = passport.authenticate("discord", {
+const discordAuthRedirect = passport.authenticate("discord", {
+  failureRedirect: "/logout", // Rota em caso de falha
+  successRedirect: "http://localhost:5173/", // Rota em caso de sucesso
+});
+const googleAuthRedirect = passport.authenticate("google", {
   failureRedirect: "/logout", // Rota em caso de falha
   successRedirect: "http://localhost:5173/", // Rota em caso de sucesso
 });
@@ -42,4 +46,4 @@ const authLogout = async (req, res) => {
   });
 };
 
-export { authRedirect, authStatus, authLogout };
+export { discordAuthRedirect, googleAuthRedirect, authStatus, authLogout };
