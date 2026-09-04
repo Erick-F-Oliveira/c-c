@@ -31,21 +31,21 @@ const Me = () => {
           </div>
         </div>
 
-        <Link to="/profile" className="btn btn-outline btn-sm">
+        <Link
+          to={`/profile/${user?.userId}`}
+          className="btn btn-outline btn-sm"
+        >
           Ver Perfil
         </Link>
       </div>
 
-      {/* 2. Hero / Ação Principal (Entrar no Jogo) */}
       <div className="hero bg-gradient-to-r from-primary/10 via-base-200 to-secondary/10 rounded-3xl border border-base-300 p-8 text-center sm:text-left">
         <div className="hero-content flex-col sm:flex-row justify-between w-full">
           <div className="space-y-2 max-w-md">
             <span className="badge badge-primary badge-sm">
               Temporada Ativa
             </span>
-            <h2 className="text-3xl font-black">
-              Pronto para a próxima partida?
-            </h2>
+            <h2 className="text-3xl font-black">Pronto para uma partida?</h2>
             <p className="text-sm opacity-70">
               Monte sua estratégia, escolha suas cartas e enfrente adversários
               ou teste seus decks.
@@ -58,7 +58,7 @@ const Me = () => {
             >
               ⚔️ Jogar Agora
             </Link>
-            <Link to="/rooms" className="btn btn-neutral btn-md">
+            <Link to="/lobby" className="btn btn-neutral btn-md">
               Salas Customizadas
             </Link>
           </div>
@@ -68,7 +68,7 @@ const Me = () => {
       {/* 3. Atalhos rápidos em Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Link
-          to="/collection"
+          to="/"
           className="card bg-base-200 hover:bg-base-300 transition-all border border-base-300"
         >
           <div className="card-body p-6">
@@ -81,7 +81,7 @@ const Me = () => {
         </Link>
 
         <Link
-          to="/shop"
+          to="/"
           className="card bg-base-200 hover:bg-base-300 transition-all border border-base-300"
         >
           <div className="card-body p-6">
@@ -94,7 +94,7 @@ const Me = () => {
         </Link>
 
         <Link
-          to="/ranking"
+          to="/"
           className="card bg-base-200 hover:bg-base-300 transition-all border border-base-300"
         >
           <div className="card-body p-6">

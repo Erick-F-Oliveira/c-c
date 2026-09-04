@@ -2,14 +2,16 @@ import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../../contexts/auth.context.jsx";
 import { io } from "socket.io-client";
 import { useEffect, useRef, useState } from "react";
+import { GAMEICONS } from "../../utils/commonIcons.jsx";
 
 const Room = () => {
   const { code } = useParams();
   const { user } = useAuth();
 
   const [enemyOnTable, setEnemyOnTable] = useState(null);
-  const [lastDrawnBy, setLastDrawnBy] = useState(null);
+  const [logs, setLogs] = useState([]);
   const socketRef = useRef(null);
+  const logContainerRef = useRef(null);
 
   useEffect(() => {
     socketRef.current = io("http://localhost:3000", {
@@ -18,14 +20,32 @@ const Room = () => {
 
     const socket = socketRef.current;
 
-    // 1. Entra na sala passando a string do código
-    socket.emit("join_room", code);
+    socket.on("connect", () => {
+      socket.emit("join_room", code);
+    });
 
-    // 2. Ouve o evento exato que o backend emite
+    // Escuta a carta que saiu e adiciona ao log
     socket.on("enemy_drawn", (data) => {
-      // data vem no formato: { drawnBy: socket.id, enemy: enemyDrawn }
+      const enemyName =
+        data.enemy?.name || data.enemy?.nome || "Criatura Desconhecida";
+      const isMe = data.drawnBy === socket.id;
+      const timestamp = new Date().toLocaleTimeString("pt-BR", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+
       setEnemyOnTable(data.enemy);
-      setLastDrawnBy(data.drawnBy);
+
+      setLogs((prev) => [
+        ...prev,
+        {
+          id: `${Date.now()}-${Math.random()}`,
+          time: timestamp,
+          text: `${isMe ? "Você" : "Um jogador"} sorteou: ${enemyName}`,
+          enemy: data.enemy,
+        },
+      ]);
     });
 
     return () => {
@@ -33,18 +53,21 @@ const Room = () => {
     };
   }, [code]);
 
-  const puxarCriatura = () => {
-    console.log("Clicou no botão! Emitindo para a sala:", code);
-    if (!socketRef.current) {
-      console.error("Socket ainda não está pronto!");
-      return;
+  // Auto-scroll para manter a mensagem mais recente visível
+  useEffect(() => {
+    if (logContainerRef.current) {
+      logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight;
     }
+  }, [logs]);
+
+  const puxarCriatura = () => {
+    if (!socketRef.current) return;
     socketRef.current.emit("request_enemy_for_room", code);
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-6 px-4 space-y-4">
-      {/* Topo / Status da Sala */}
+    <div className="max-w-5xl mx-auto py-6 px-4 space-y-6">
+      {/* Barra de Status */}
       <div className="flex justify-between items-center bg-base-200 p-4 rounded-xl border border-base-300">
         <div>
           <span className="text-xs opacity-60">Código da Sala</span>
@@ -56,58 +79,91 @@ const Room = () => {
         </div>
       </div>
 
-      {/* Centro do Tabuleiro: Área do Inimigo Ativo */}
-      <div className="min-h-[350px] border-2 border-dashed border-base-300 rounded-2xl flex flex-col items-center justify-center gap-6 p-6 bg-base-200/30">
-        <button
-          onClick={puxarCriatura}
-          className="btn btn-error btn-md shadow-md"
-        >
-          ⚔️ Sortear Inimigo para a Mesa
-        </button>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Mesa Central (2 Colunas) */}
+        <div className="lg:col-span-2 min-h-[380px] border-2 border-dashed border-base-300 rounded-2xl flex flex-col items-center justify-center gap-6 p-6 bg-base-200/30">
+          <button
+            onClick={puxarCriatura}
+            className="btn btn-error btn-md shadow-md"
+          >
+            ⚔️ Sortear Inimigo para a Mesa
+          </button>
 
-        {enemyOnTable ? (
-          <div className="card bg-base-200 border border-error/50 shadow-2xl w-72 text-left p-4">
-            <div className="flex justify-between items-center mb-2">
-              <span className="badge badge-error badge-sm">Criatura</span>
-              <span className="text-[10px] font-mono opacity-50">
-                Puxado por:{" "}
-                {lastDrawnBy === socketRef.current?.id
-                  ? "Você"
-                  : "Outro Jogador"}
+          {enemyOnTable ? (
+            <div className="card bg-base-200 border border-error/50 shadow-2xl w-72 text-left p-4">
+              <span className="badge badge-error badge-sm mb-2">
+                Criatura Ativa
               </span>
+              <h3 className="text-lg font-bold">
+                {enemyOnTable.name ||
+                  enemyOnTable.nome ||
+                  "Criatura Desconhecida"}
+              </h3>
+              {enemyOnTable.description && (
+                <p className="text-xs opacity-70 mt-1">
+                  {enemyOnTable.description}
+                </p>
+              )}
+              <div className="flex justify-between items-center mt-4 text-sm font-mono bg-base-300/60 p-2 rounded">
+                <span className="text-error font-bold">
+                  {GAMEICONS.ATQ}{" "}
+                  {enemyOnTable.attack ?? enemyOnTable.ataque ?? 0} ATQ
+                </span>
+                <span className="text-error font-bold">
+                  {GAMEICONS.DEF}{" "}
+                  {enemyOnTable.defense ?? enemyOnTable.defesa ?? 0} DEF
+                </span>
+                <span className="text-success font-bold">
+                  {GAMEICONS.HP}{" "}
+                  {enemyOnTable.hp ??
+                    enemyOnTable.life ??
+                    enemyOnTable.vida ??
+                    0}{" "}
+                  HP
+                </span>
+              </div>
             </div>
+          ) : (
+            <p className="text-xs opacity-40">Nenhum inimigo ativo na mesa.</p>
+          )}
 
-            {/* Renderiza as propriedades que o seu CreatureCardRegistry tiver */}
-            <h3 className="text-lg font-bold">
-              {enemyOnTable.name ||
-                enemyOnTable.nome ||
-                "Criatura Desconhecida"}
+          <Link to="/lobby" className="btn btn-sm btn-ghost mt-auto">
+            Sair da Sala
+          </Link>
+        </div>
+
+        {/* Caixa de Log de Cartas (1 Coluna lateral) */}
+        <div className="card bg-base-200 border border-base-300 shadow-md flex flex-col h-[380px]">
+          <div className="p-3 border-b border-base-300 flex justify-between items-center">
+            <h3 className="font-bold text-sm tracking-wide">
+              📜 Histórico de criaturas
             </h3>
-
-            {enemyOnTable.description && (
-              <p className="text-xs opacity-70 mt-1">
-                {enemyOnTable.description}
-              </p>
-            )}
-
-            <div className="flex justify-between items-center mt-4 text-sm font-mono bg-base-300/60 p-2 rounded">
-              <span className="text-error font-bold">
-                ⚔️ {enemyOnTable.attack ?? enemyOnTable.ataque ?? 0} ATQ
-              </span>
-              <span className="text-success font-bold">
-                🛡️{" "}
-                {enemyOnTable.hp ?? enemyOnTable.life ?? enemyOnTable.vida ?? 0}{" "}
-                HP
-              </span>
-            </div>
+            <span className="badge badge-neutral badge-xs">{logs.length}</span>
           </div>
-        ) : (
-          <p className="text-xs opacity-40">Nenhum inimigo ativo na mesa.</p>
-        )}
 
-        <Link to="/lobby" className="btn btn-sm btn-ghost mt-4">
-          Sair da Sala
-        </Link>
+          <div
+            ref={logContainerRef}
+            className="p-3 overflow-y-auto flex-1 space-y-2 font-mono text-xs"
+          >
+            {logs.length === 0 ? (
+              <p className="text-center opacity-40 py-8">
+                Nenhuma carta sorteada ainda...
+              </p>
+            ) : (
+              logs.map((entry) => (
+                <div
+                  key={entry.id}
+                  className="bg-base-300/50 p-2 rounded border border-base-content/5 leading-relaxed"
+                >
+                  <span className="opacity-40 text-[10px] mr-1">
+                    [{entry.time}]
+                  </span>
+                  <span className="font-semibold text-error">{entry.text}</span>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

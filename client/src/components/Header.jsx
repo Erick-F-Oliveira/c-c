@@ -1,20 +1,19 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo1.png";
 import { useAuth } from "../contexts/auth.context";
+import getAvatarUrl from "../utils/getAvatarUrl";
+import LogoutButton from "./LogoutButton";
+import { TbCards } from "react-icons/tb";
+import { IoPerson } from "react-icons/io5";
+import { GoGear } from "react-icons/go";
 
-//user será trazido depois pela autenticação
 const Header = () => {
   const { isLoggedIn, user } = useAuth();
-  if (isLoggedIn) {
-    let avatarUrl = `https://cdn.discordapp.com/embed/avatars/0.png`;
-    if (!user || !user.discordId || !user.discordAvatar) {
-      avatarUrl = user?.avatar;
-    }
-    if (!user || (!user.discordAvatar && !user.googleAvatar)) {
-      avatarUrl = `https://cdn.discordapp.com/embed/avatars/0.png`;
-    }
-  }
+  const location = useLocation();
+  const avatarUrl = getAvatarUrl(user);
+  const isInLobby =
+    location.pathname === "/lobby" || location.pathname.startsWith("/room");
+
   return (
     <div className="navbar bg-base-100/20 backdrop-blur-md sticky top-0 z-5 px-4 shadow-sm">
       <div className="navbar-start">
@@ -23,7 +22,13 @@ const Header = () => {
           <span className="badge badge-accent badge-xs">v0.1</span>
         </Link>
       </div>
-
+      {isLoggedIn && !isInLobby && (
+        <div>
+          <Link to="/lobby" className="btn btn-primary btn-sm md:btn-md gap-2">
+            <span>Jogar</span>
+          </Link>
+        </div>
+      )}
       <div className="navbar-end gap-2">
         {user ? (
           <div className="dropdown dropdown-end">
@@ -33,14 +38,7 @@ const Header = () => {
               className="btn btn-ghost btn-circle avatar online"
             >
               <div className="w-10 rounded-full ring ring-success ring-offset-base-100 ring-offset-2">
-                <img
-                  src={
-                    user.avatar
-                      ? `https://cdn.discordapp.com/avatars/${user.discordId}/${user.discordAvatar}.png`
-                      : "https://img.daisyui.com/images/profile/demo/batperson@192.webp"
-                  }
-                  alt={user.username}
-                />
+                <img src={avatarUrl} alt={user.username} />
               </div>
             </div>
             <ul
@@ -51,19 +49,26 @@ const Header = () => {
                 {user.username}
               </li>
               <li>
-                <a>👤 Perfil</a>
+                <Link to={`/profile/${user.userId}`}>
+                  <IoPerson className="text-lg" /> Perfil
+                </Link>
               </li>
               <li>
-                <a>🎴 Meu Deck</a>
+                <Link
+                  to={`/me/${user.userId}/deck`}
+                  className="flex items-center gap-2 color-secondary"
+                >
+                  <TbCards className="text-lg" /> Meu Deck
+                </Link>
               </li>
               <li>
-                <a>⚙️ Configurações</a>
+                <Link to={`/me/${user.userId}/settings`}>
+                  <GoGear className="text-lg" /> Configurações
+                </Link>
               </li>
               <div className="divider my-1"></div>
               <li>
-                <a className="text-error" href="/auth/logout">
-                  🚪 Sair
-                </a>
+                <LogoutButton className="text-lg" />
               </li>
             </ul>
           </div>

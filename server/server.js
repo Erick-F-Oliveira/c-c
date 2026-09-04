@@ -11,7 +11,7 @@ import MagicCardRegistry from "./src/registry/magicCard-registry.js";
 
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"],
   }),
 );
@@ -20,8 +20,9 @@ const httpServer = http.createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "*",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 setupSockets(io);

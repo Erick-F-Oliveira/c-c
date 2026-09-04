@@ -17,7 +17,7 @@ export default function registerGameHandlers(io, socket) {
 
   // Evento de sortear inimigo focado NA SALA
   socket.on("request_enemy_for_room", (roomName) => {
-    const enemyDrawn = random(CreatureCardRegistry.getAllEnemyCards())[0];
+    const enemyDrawn = random(CreatureCardRegistry.getAllCreatureCards())[0];
 
     logger.info(`🎲 Sorteando inimigo para a sala ${roomName}...`);
 

@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Me from "./pages/Me";
 import Lobby from "./pages/Lobby";
 import Room from "./pages/Room";
+import Profile from "./pages/Profile";
 
 function AppRoutes() {
   return (
@@ -21,6 +22,14 @@ function AppRoutes() {
             element={
               <PrivateRoute>
                 <Me />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile/:id"
+            element={
+              <PrivateRoute>
+                <Profile />
               </PrivateRoute>
             }
           />
