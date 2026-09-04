@@ -1,6 +1,6 @@
 import { Router } from "express";
 import health from "./routes/health.route.js";
-import login from "./routes/user.route.js";
+import user from "./routes/user.route.js";
 import auth from "./routes/auth.route.js";
 const router = Router();
 
@@ -12,13 +12,17 @@ router.get("/", (req, res) => {
 router.use("/health", health);
 
 //Rota de cadastro de usuário
-router.use("/register", login);
+//acho que não vou usar por enquanto, no momento não to afim de trabalhar com esqueci senha e etc.
+//router.use("/register", user);
 
 //Rota de login
-router.use("/login", login);
+//router.use("/login", user);
 
 //Rota de autenticação
 router.use("/auth", auth);
+
+//Rota de usuário logado
+router.use("/user", user);
 
 // Qualquer rota não encontrada cai aqui
 router.use((req, res) => {

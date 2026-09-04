@@ -1,12 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo1.png";
-
+import { useAuth } from "../contexts/auth.context";
 
 //user será trazido depois pela autenticação
-const Header = ({ user }) => {
+const Header = () => {
+  const { isLoggedIn, user } = useAuth();
+  if (isLoggedIn) {
+    let avatarUrl = `https://cdn.discordapp.com/embed/avatars/0.png`;
+    if (!user || !user.discordId || !user.discordAvatar) {
+      avatarUrl = user?.avatar;
+    }
+    if (!user || (!user.discordAvatar && !user.googleAvatar)) {
+      avatarUrl = `https://cdn.discordapp.com/embed/avatars/0.png`;
+    }
+  }
   return (
-    <div className="navbar bg-base-100/50 backdrop-blur-md sticky top-0 z-50 px-4 shadow-sm">
+    <div className="navbar bg-base-100/20 backdrop-blur-md sticky top-0 z-5 px-4 shadow-sm">
       <div className="navbar-start">
         <Link to="/" className="btn btn-ghost text-xl font-bold gap-2">
           <img src={logo} width={"50px"} />
@@ -26,7 +36,7 @@ const Header = ({ user }) => {
                 <img
                   src={
                     user.avatar
-                      ? `https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatar}.png`
+                      ? `https://cdn.discordapp.com/avatars/${user.discordId}/${user.discordAvatar}.png`
                       : "https://img.daisyui.com/images/profile/demo/batperson@192.webp"
                   }
                   alt={user.username}
@@ -68,6 +78,6 @@ const Header = ({ user }) => {
       </div>
     </div>
   );
-}
+};
 
 export default Header;

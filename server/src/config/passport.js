@@ -22,6 +22,7 @@ const passportConfig = () => {
     }
   });
 
+  //DISCORD
   passport.use(
     new DiscordStrategy(
       {
@@ -30,48 +31,60 @@ const passportConfig = () => {
         callbackURL: process.env.DISCORD_REDIRECT_URI,
         scope: ["identify", "email"],
       },
-
       async (accessToken, refreshToken, profile, done) => {
         const rawData = {
           discordId: profile.id,
           username: profile.username,
-          email: profile.email,
           avatar: profile.avatar || "",
+          email: profile.email,
         };
-        const validation = discordAuthSchema.safeParse(rawData);
 
+        const validation = discordAuthSchema.safeParse(rawData);
         if (!validation.success) {
-          logger.superError("Falha de validação Discord:", validation.error);
-          return done(new Error("Invalid user data"), null);
+          logger.error("Falha de validação Discord:", validation.error);
+          return done(new Error("Dados de usuário inválidos"), null);
         }
 
         try {
           const valid = validation.data;
-          const user = await User.findOneAndUpdate(
-            { discordId: valid.discordId },
-            {
-              $set: {
-                discordId: valid.discordId,
-                discordUsername: valid.username,
-                discordAvatar: valid.avatar,
-                email: valid.email,
-              },
-              $setOnInsert: {
-                username: valid.username,
-                avatar: valid.avatar,
-              },
-            },
-            { upsert: true, returnDocument: "after" },
-          );
+
+          let user = await User.findOne({
+            $or: [
+              { discordId: valid.discordId },
+              ...(valid.email ? [{ email: valid.email }] : []),
+            ],
+          });
+
+          if (user) {
+            user.discordId = valid.discordId;
+            user.discordUsername = valid.username;
+            user.discordAvatar = valid.avatar;
+            // Mantém o e-mail original se ele já tinha um
+            if (!user.email && valid.email) user.email = valid.email;
+
+            await user.save();
+            return done(null, user);
+          }
+
+          user = await User.create({
+            discordId: valid.discordId,
+            discordUsername: valid.username,
+            discordAvatar: valid.avatar,
+            username: valid.username,
+            avatar: valid.avatar,
+            email: valid.email,
+          });
 
           return done(null, user);
         } catch (err) {
-          logger.superError(`Erro no banco (Discord): ${err.message}`);
+          logger.error(`Erro no banco (Discord): ${err.message}`);
           return done(err, null);
         }
       },
     ),
   );
+
+  // GOOGLE
   passport.use(
     new GoogleStrategy(
       {
@@ -89,7 +102,6 @@ const passportConfig = () => {
         };
 
         const validation = googleAuthSchema.safeParse(rawData);
-
         if (!validation.success) {
           logger.error("Falha de validação Google:", validation.error);
           return done(validation.error, null);
@@ -98,22 +110,30 @@ const passportConfig = () => {
         try {
           const valid = validation.data;
 
-          const user = await User.findOneAndUpdate(
-            { googleId: valid.googleId },
-            {
-              $set: {
-                googleId: valid.googleId,
-                googleUsername: valid.username,
-                googleAvatar: valid.avatar,
-                email: valid.email,
-              },
-              $setOnInsert: {
-                username: valid.username,
-                avatar: valid.avatar,
-              },
-            },
-            { upsert: true, returnDocument: "after" },
-          );
+          let user = await User.findOne({
+            $or: [
+              { googleId: valid.googleId },
+              { email: valid.email }, // Google sempre fornece e-mail
+            ],
+          });
+
+          if (user) {
+            user.googleId = valid.googleId;
+            user.googleUsername = valid.username;
+            user.googleAvatar = valid.avatar;
+
+            await user.save();
+            return done(null, user);
+          }
+
+          user = await User.create({
+            googleId: valid.googleId,
+            googleUsername: valid.username,
+            googleAvatar: valid.avatar,
+            username: valid.username,
+            avatar: valid.avatar,
+            email: valid.email,
+          });
 
           return done(null, user);
         } catch (err) {

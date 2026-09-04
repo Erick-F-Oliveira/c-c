@@ -1,17 +1,19 @@
 import { Outlet } from "react-router-dom";
 import Container from "../../components/Container.jsx";
 import Header from "../../components/Header.jsx";
+import Footer from "../../components/Footer.jsx";
 
-const  Base = () =>{
+const Base = () => {
   return (
     <>
-      <main>
-        <Container>
-          <Header />
+      <Container>
+        <Header />
+        <main>
           <Outlet />
-        </Container>
-      </main>
+        </main>
+        <Footer />
+      </Container>
     </>
   );
-}
+};
 export default Base;

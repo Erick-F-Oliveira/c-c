@@ -1,7 +1,4 @@
-import express from "express";
 import passport from "passport";
-
-const router = express.Router();
 
 // Rota para verificar status de autenticação
 const authStatus = async (req, res) => {
@@ -24,11 +21,11 @@ const authStatus = async (req, res) => {
 // Rota de callback que o Discord usa para enviar a resposta
 const discordAuthRedirect = passport.authenticate("discord", {
   failureRedirect: "/logout", // Rota em caso de falha
-  successRedirect: "http://localhost:5173/", // Rota em caso de sucesso
+  successRedirect: "http://localhost:5173/me", // Rota em caso de sucesso
 });
 const googleAuthRedirect = passport.authenticate("google", {
   failureRedirect: "/logout", // Rota em caso de falha
-  successRedirect: "http://localhost:5173/", // Rota em caso de sucesso
+  successRedirect: "http://localhost:5173/me", // Rota em caso de sucesso
 });
 
 const authLogout = async (req, res) => {
@@ -40,7 +37,7 @@ const authLogout = async (req, res) => {
       if (err) {
         return res.status(500).json({ error: "Erro ao destruir sessão" });
       }
-      res.clearCookie("connect.sid");
+      res.clearCookie("connect.sid", { path: "/" });
       res.json({ message: "Logout realizado com sucesso" });
     });
   });

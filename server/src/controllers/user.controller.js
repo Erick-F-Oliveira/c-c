@@ -2,7 +2,7 @@ import logger from "../utils/logger.js";
 import User from "../models/user.model.js";
 import { randomMixedString } from "../utils/functions/randomString.js";
 
-const registerUser = async (req, res) => {
+/*const registerUser = async (req, res) => {
   try {
     const { username, email } = req.body;
     await User.create({
@@ -39,6 +39,13 @@ const login = async (req, res) => {
       message: "Erro ao efetuar login",
     });
   }
+};*/
+
+const getUserInfo = async (req, res) => {
+  res.status(200).json({
+    isLoggedIn: true,
+    user: req.user,
+  });
 };
 
-export { registerUser, login };
+export { getUserInfo };
